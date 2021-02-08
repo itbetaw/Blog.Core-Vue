@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Blog.Core.Web.Host</name>
+    </assembly>
+    <members>
+        <member name="T:Blog.Core.Web.Host.TokenModelJwt">
+            <summary>
+             令牌
+            </summary>
+        </member>
+        <member name="P:Blog.Core.Web.Host.TokenModelJwt.Uid">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Blog.Core.Web.Host.TokenModelJwt.Role">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="P:Blog.Core.Web.Host.TokenModelJwt.work">
+            <summary>
+            职能
+            </summary>
+        </member>
+        <member name="T:Blog.Core.Web.Host.Controllers.BlogController">
+            <summary>
+            博客管理
+            </summary>
+        </member>
+    </members>
+</doc>
