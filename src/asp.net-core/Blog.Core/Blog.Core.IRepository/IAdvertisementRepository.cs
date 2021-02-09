@@ -5,12 +5,12 @@ using System.Linq.Expressions;
 
 namespace Blog.Core.IRepository
 {
-    public interface IAdvertisementRepository
+    public interface IAdvertisementRepository: IBaseRepository<Advertisement>
     {
-        int Add(Advertisement model);
-        bool Delete(Advertisement model);
-        bool Update(Advertisement model);
-        List<Advertisement> Query(Expression<Func<Advertisement, bool>> whereExpression);
+        //int Add(Advertisement model);
+        //bool Delete(Advertisement model);
+        //bool Update(Advertisement model);
+        //List<Advertisement> Query(Expression<Func<Advertisement, bool>> whereExpression);
 
     }
 }

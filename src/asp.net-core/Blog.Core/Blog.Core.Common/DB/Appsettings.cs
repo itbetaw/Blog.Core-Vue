@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using System;
+using System.Linq;
 
 namespace Blog.Core.Common
 {
@@ -21,17 +22,14 @@ namespace Blog.Core.Common
             try
             {
 
-                var val = string.Empty;
-                for (int i = 0; i < sections.Length; i++)
+                if (sections.Any())
                 {
-                    val += sections[i] + ":";
+                    return Configuration[string.Join(":", sections)];
                 }
-                return Configuration[val.TrimEnd(':')];
             }
-            catch (Exception)
-            {
-                return "";
-            }
+            catch (Exception) { }
+
+            return "";
         }
     }
 }

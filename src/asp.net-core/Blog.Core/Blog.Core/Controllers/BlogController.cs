@@ -1,12 +1,9 @@
 ﻿using Blog.Core.IServices;
 using Blog.Core.Model;
 using Blog.Core.Model.Models;
-using Blog.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Blog.Core.Web.Host.Controllers
@@ -18,6 +15,13 @@ namespace Blog.Core.Web.Host.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
+        readonly IAdvertisementServices _advertisementServices;
+
+        public BlogController(IAdvertisementServices advertisementServices)
+        {
+            _advertisementServices = advertisementServices;
+        }
+
         [HttpGet]
         [Authorize(Policy = "SystemOrAdmin")]
         public string GetValue()
@@ -25,10 +29,9 @@ namespace Blog.Core.Web.Host.Controllers
             return "V1";
         }
         [HttpGet("{id}", Name = "Get")]
-        public List<Advertisement> Get(int id)
+        public async Task<List<Advertisement>> Get(int id)
         {
-            IAdvertisementServices advertisementServices = new AdvertisementServices();
-            return advertisementServices.Query(d => d.Id == id);
+            return await _advertisementServices.Query(d => d.Id == id);
         }
 
         [HttpGet]

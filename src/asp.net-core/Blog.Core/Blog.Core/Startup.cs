@@ -1,3 +1,5 @@
+using Autofac;
+using Autofac.Extras.DynamicProxy;
 using Blog.Core.Common;
 using Blog.Core.Web.Host;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +33,7 @@ namespace Blog.Core
         public void ConfigureServices(IServiceCollection services)
         {
             var basePath = AppContext.BaseDirectory;
+            BaseDBConfig.ConnectionString = Configuration.GetSection("AppSettings:SqlServerConnection").Value;
             services.AddControllers();
 
             services.AddSwaggerGen(c =>
@@ -139,6 +143,20 @@ namespace Blog.Core
             #endregion
 
             #endregion
+        }
+
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            var assemblysServices = Assembly.Load("Blog.Core.Services");
+            //指定已扫描程序集中的类型注册为提供所有其实现的接口
+            builder.RegisterAssemblyTypes(assemblysServices).AsImplementedInterfaces();
+
+            //通过反射加载repository
+            var assemblyRepository = Assembly.Load("Blog.Core.Repository");
+            builder.RegisterAssemblyTypes(assemblyRepository)
+                      .AsImplementedInterfaces()
+                      .InstancePerLifetimeScope()
+                      .EnableInterfaceInterceptors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

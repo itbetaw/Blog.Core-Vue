@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Blog.Core.Repository
+namespace Blog.Core.Common
 {
     public class BaseDBConfig
     {
-        public static string ConnectionString = $"server=.;uid=sa;pwd=sasa;database=BlogDB";
+        public static string ConnectionString { get; set; }
 
     }
 }
