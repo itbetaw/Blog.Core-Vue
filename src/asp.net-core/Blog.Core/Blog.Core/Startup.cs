@@ -1,9 +1,9 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Blog.Core.Common;
+using Blog.Core.Extensions;
 using Blog.Core.Repository;
 using Blog.Core.Services;
-using Blog.Core.Web.Host;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -158,6 +158,8 @@ namespace Blog.Core
                       .AsImplementedInterfaces()
                       .InstancePerLifetimeScope()
                       .EnableInterfaceInterceptors();
+
+            builder.RegisterType<BlogLogAOP>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
