@@ -1,4 +1,7 @@
-﻿using Blog.Core.Model;
+﻿using Blog.Core.IServices;
+using Blog.Core.Model;
+using Blog.Core.Model.Models;
+using Blog.Core.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,6 +24,13 @@ namespace Blog.Core.Web.Host.Controllers
         {
             return "V1";
         }
+        [HttpGet("{id}", Name = "Get")]
+        public List<Advertisement> Get(int id)
+        {
+            IAdvertisementServices advertisementServices = new AdvertisementServices();
+            return advertisementServices.Query(d => d.Id == id);
+        }
+
         [HttpGet]
         public MessageModel<string> GetJWTToken(string name, string pass)
         {

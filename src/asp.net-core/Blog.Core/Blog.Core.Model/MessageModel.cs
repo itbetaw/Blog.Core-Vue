@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Blog.Core.Model
+﻿namespace Blog.Core.Model
 {
     /// <summary>
     /// 通用返回信息类
@@ -29,8 +27,7 @@ namespace Blog.Core.Model
         /// </summary>
         /// <param name="msg">消息</param>
         /// <returns></returns>
-        public static MessageModel<T> Success(string msg)
-        {
+        public static MessageModel<T> Success(string msg) {
             return Message(true, msg, default);
         }
         /// <summary>
@@ -69,7 +66,7 @@ namespace Blog.Core.Model
         /// <param name="msg">消息</param>
         /// <param name="response">数据</param>
         /// <returns></returns>
-        public static MessageModel<T> Message(bool success, string msg, T response)
+        public static MessageModel<T> Message(bool success,string msg, T response )
         {
             return new MessageModel<T>() { msg = msg, response = response, success = success };
         }

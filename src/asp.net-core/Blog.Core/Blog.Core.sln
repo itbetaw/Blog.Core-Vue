@@ -3,9 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30907.101
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Core.Web.Host", "Blog.Core\Blog.Core.Web.Host.csproj", "{B63CF9DA-051D-44EC-950C-FF96246BBC54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Core.Web.Host", "Blog.Core\Blog.Core.Web.Host.csproj", "{B63CF9DA-051D-44EC-950C-FF96246BBC54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Core.Model", "Blog.Core.Model\Blog.Core.Model.csproj", "{17EDB63F-EF56-459D-BDF3-A2F55EAEDE8D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blog.Core.Model", "Blog.Core.Model\Blog.Core.Model.csproj", "{17EDB63F-EF56-459D-BDF3-A2F55EAEDE8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Core.IServices", "Blog.Core.IServices\Blog.Core.IServices.csproj", "{ED454670-37AB-4B84-A5D0-92EA7D1CC0AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Core.Repository", "Blog.Core.Repository\Blog.Core.Repository.csproj", "{A67953F5-4828-41C5-BE19-A810C24BAB0D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Core.Services", "Blog.Core.Services\Blog.Core.Services.csproj", "{20837702-E64B-4150-92B7-299D57A9B5D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Core.IRepository", "Blog.Core.IRepository\Blog.Core.IRepository.csproj", "{2C06BDA1-38AB-48DC-883D-27034E6662CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blog.Core.Common", "Blog.Core.Common\Blog.Core.Common.csproj", "{6DE2B049-D3E3-4204-88FC-BF17B19D23C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +31,26 @@ Global
 		{17EDB63F-EF56-459D-BDF3-A2F55EAEDE8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17EDB63F-EF56-459D-BDF3-A2F55EAEDE8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17EDB63F-EF56-459D-BDF3-A2F55EAEDE8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED454670-37AB-4B84-A5D0-92EA7D1CC0AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED454670-37AB-4B84-A5D0-92EA7D1CC0AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED454670-37AB-4B84-A5D0-92EA7D1CC0AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED454670-37AB-4B84-A5D0-92EA7D1CC0AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A67953F5-4828-41C5-BE19-A810C24BAB0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A67953F5-4828-41C5-BE19-A810C24BAB0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A67953F5-4828-41C5-BE19-A810C24BAB0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A67953F5-4828-41C5-BE19-A810C24BAB0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20837702-E64B-4150-92B7-299D57A9B5D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20837702-E64B-4150-92B7-299D57A9B5D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20837702-E64B-4150-92B7-299D57A9B5D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20837702-E64B-4150-92B7-299D57A9B5D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C06BDA1-38AB-48DC-883D-27034E6662CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C06BDA1-38AB-48DC-883D-27034E6662CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C06BDA1-38AB-48DC-883D-27034E6662CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C06BDA1-38AB-48DC-883D-27034E6662CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DE2B049-D3E3-4204-88FC-BF17B19D23C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DE2B049-D3E3-4204-88FC-BF17B19D23C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DE2B049-D3E3-4204-88FC-BF17B19D23C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DE2B049-D3E3-4204-88FC-BF17B19D23C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

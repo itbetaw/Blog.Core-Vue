@@ -7,3 +7,14 @@
 /src/asp.net-core/Blog.Core/Blog.Core/bin/Debug/net5.0
 /src/asp.net-core/Blog.Core/Blog.Core.Model/bin/Debug/net5.0
 /src/asp.net-core/Blog.Core/Blog.Core.Model/obj
+/src/asp.net-core/Blog.Core/.vs/Blog.Core/DesignTimeBuild
+/src/asp.net-core/Blog.Core/Blog.Core.Common/obj
+/src/asp.net-core/Blog.Core/Blog.Core.Common/bin/Debug/net5.0
+/src/asp.net-core/Blog.Core/Blog.Core.IRepository/bin/Debug/net5.0
+/src/asp.net-core/Blog.Core/Blog.Core.IRepository/obj
+/src/asp.net-core/Blog.Core/Blog.Core.IServices/bin/Debug/net5.0
+/src/asp.net-core/Blog.Core/Blog.Core.IServices/obj
+/src/asp.net-core/Blog.Core/Blog.Core.Repository/bin/Debug/net5.0
+/src/asp.net-core/Blog.Core/Blog.Core.Repository/obj
+/src/asp.net-core/Blog.Core/Blog.Core.Services/bin/Debug/net5.0
+/src/asp.net-core/Blog.Core/Blog.Core.Services/obj

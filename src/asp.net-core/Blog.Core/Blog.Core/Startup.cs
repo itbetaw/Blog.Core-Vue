@@ -1,3 +1,4 @@
+using Blog.Core.Common;
 using Blog.Core.Web.Host;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -160,7 +161,6 @@ namespace Blog.Core
 
             app.UseRouting();
 
-            //app.UseJwtTokenAuth();
 
             // 先开启认证
             app.UseAuthentication();
