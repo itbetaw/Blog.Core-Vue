@@ -1,6 +1,8 @@
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Blog.Core.Common;
+using Blog.Core.Repository;
+using Blog.Core.Services;
 using Blog.Core.Web.Host;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -147,13 +149,12 @@ namespace Blog.Core
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            var assemblysServices = Assembly.Load("Blog.Core.Services");
+            var assemblysServices = Assembly.GetAssembly(typeof(BaseServices<object>));
             //指定已扫描程序集中的类型注册为提供所有其实现的接口
-            builder.RegisterAssemblyTypes(assemblysServices).AsImplementedInterfaces();
 
             //通过反射加载repository
-            var assemblyRepository = Assembly.Load("Blog.Core.Repository");
-            builder.RegisterAssemblyTypes(assemblyRepository)
+            var assemblyRepository = Assembly.GetAssembly(typeof(BaseRepository<object>));
+            builder.RegisterAssemblyTypes(assemblyRepository, assemblysServices)
                       .AsImplementedInterfaces()
                       .InstancePerLifetimeScope()
                       .EnableInterfaceInterceptors();
