@@ -145,10 +145,15 @@ namespace Blog.Core
             #endregion
 
             #endregion
+
+            services.AddMemoryCache();
+            services.AddScoped<ICaching, MemoryCaching>();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
+            builder.RegisterType<BlogLogAOP>();
+            builder.RegisterType<BlogCacheAOP>();
             var assemblysServices = Assembly.GetAssembly(typeof(BaseServices<object>));
             //指定已扫描程序集中的类型注册为提供所有其实现的接口
 
@@ -157,9 +162,10 @@ namespace Blog.Core
             builder.RegisterAssemblyTypes(assemblyRepository, assemblysServices)
                       .AsImplementedInterfaces()
                       .InstancePerLifetimeScope()
-                      .EnableInterfaceInterceptors();
+                      .EnableInterfaceInterceptors()
+                      .InterceptedBy(typeof(BlogLogAOP), typeof(BlogCacheAOP));
 
-            builder.RegisterType<BlogLogAOP>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
