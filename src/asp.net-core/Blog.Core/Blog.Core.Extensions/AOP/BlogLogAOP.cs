@@ -1,10 +1,8 @@
-﻿using Castle.DynamicProxy;
-using StackExchange.Profiling;
+﻿using Blog.Core.Common;
+using Castle.DynamicProxy;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Blog.Core.Extensions
@@ -29,7 +27,7 @@ namespace Blog.Core.Extensions
             // 输出到日志文件
             Parallel.For(0, 1, e =>
             {
-                //LogLock.OutSql2Log("AOPLog", new string[] { dataIntercept });
+                LogLock.OutSql2Log("AOPLog", new string[] { dataIntercept });
             });
         }
 

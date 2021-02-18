@@ -1,8 +1,10 @@
-﻿using Blog.Core.IServices;
+﻿using Blog.Core.Common;
+using Blog.Core.IServices;
 using Blog.Core.Model;
 using Blog.Core.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,11 +17,15 @@ namespace Blog.Core.Web.Host.Controllers
     [ApiController]
     public class BlogController : ControllerBase
     {
-        readonly IAdvertisementServices _advertisementServices;
+        readonly IBlogArticleServices _blogArticleServices;
+        private readonly IConfigurationRoot _configurationRoot;
 
-        public BlogController(IAdvertisementServices advertisementServices)
+        public BlogController(IBlogArticleServices blogArticleServices,
+               IConfigurationRoot configurationAccessor
+            )
         {
-            _advertisementServices = advertisementServices;
+            _blogArticleServices = blogArticleServices;
+            _configurationRoot = configurationAccessor;
         }
 
         [HttpGet]
@@ -29,9 +35,9 @@ namespace Blog.Core.Web.Host.Controllers
             return "V1";
         }
         [HttpGet("{id}", Name = "Get")]
-        public async Task<List<Advertisement>> Get(int id)
+        public async Task<List<BlogArticle>> Get(int id)
         {
-            return await _advertisementServices.Query(d => d.Id == id);
+            return await _blogArticleServices.Query(d => d.bID == id);
         }
 
         [HttpGet]
@@ -60,6 +66,20 @@ namespace Blog.Core.Web.Host.Controllers
                 msg = suc ? "获取成功" : "获取失败",
                 response = jwtStr
             };
+        }
+
+        [HttpGet]
+        [Route("GetBlogs")]
+        public async Task<List<BlogArticle>> GetBlogs()
+
+        {
+            var ass = _configurationRoot["AppSettings:SqlServerConnection"];
+
+            var ss = _configurationRoot["AppSettings:RedisCaching:ConnectionString"];
+            var connect = Appsettings.app(new string[] { "AppSettings", "RedisCaching",
+                "ConnectionString" });
+
+            return await _blogArticleServices.GetBlogs();
         }
     }
 

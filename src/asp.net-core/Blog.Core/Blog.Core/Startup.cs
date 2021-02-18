@@ -22,10 +22,10 @@ namespace Blog.Core
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-        public Startup(IConfiguration configuration)
+        public IConfigurationRoot Configuration { get; }
+        public Startup(IWebHostEnvironment env)
         {
-            Configuration = configuration;
+            Configuration = HostingEnvironmentHelper.GetAppConfiguration(env);
         }
 
         public string ApiName { get; set; } = "Blog.Core";
@@ -35,8 +35,11 @@ namespace Blog.Core
         public void ConfigureServices(IServiceCollection services)
         {
             var basePath = AppContext.BaseDirectory;
-            BaseDBConfig.ConnectionString = Configuration.GetSection("AppSettings:SqlServerConnection").Value;
+            BaseDBConfig.ConnectionString = Configuration["AppSettings:SqlServerConnection"];
             services.AddControllers();
+
+            // ×¢Èë
+            services.AddSingleton(Configuration);
 
             services.AddSwaggerGen(c =>
             {
