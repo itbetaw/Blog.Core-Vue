@@ -4,13 +4,13 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Blog.Core.Extensions.AOP
+namespace Blog.Core.Extensions
 {
     public class BlogRedisAOP : CacheAOPBase
     {
-        private IRedisManager _cache;
+        private IRedisBasketRepository _cache;
 
-        public BlogRedisAOP(IRedisManager cache)
+        public BlogRedisAOP(IRedisBasketRepository cache)
         {
             _cache = cache;
         }
@@ -30,7 +30,7 @@ namespace Blog.Core.Extensions.AOP
             if (qCachingAttribute != null)
             {
                 var cacheKey = CustomCacheKey(invocation);
-                var cacheValue = _cache.GetValue(cacheKey);
+                var cacheValue = _cache.GetValue(cacheKey).Result;
                 if (cacheValue != null)
                 {
                     Type returnType;

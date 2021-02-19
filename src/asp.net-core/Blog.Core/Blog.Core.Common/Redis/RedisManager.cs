@@ -1,9 +1,6 @@
-﻿using StackExchange.Redis;
+﻿using Microsoft.Extensions.Configuration;
+using StackExchange.Redis;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Core.Common
 {
@@ -15,12 +12,11 @@ namespace Blog.Core.Common
 
         private readonly object redisConnectionLock = new object();
 
-        public RedisManager()
+        private IConfigurationRoot _configurationRoot;
+        public RedisManager(IConfigurationRoot configurationRoot)
         {
-            string redisConfiguration = Appsettings.app(new string[] {
-
-                "AppSettings","RedisCaching","ConnectionString"
-            });
+            _configurationRoot = configurationRoot;
+            string redisConfiguration = _configurationRoot["AppSettings:RedisCaching:ConnectionString"];
             if (string.IsNullOrWhiteSpace(redisConfiguration))
             {
                 throw new ArgumentException("redis config is empty", nameof(redisConfiguration));

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.IO;
@@ -99,7 +100,6 @@ namespace Blog.Core
             #region 【第二步：配置认证服务】
 
             // 令牌验证参数
-            var audienceConfig = Configuration.GetSection("Audience");
             var symmetricKeyAsBase64 = AppSecretConfig.Audience_Secret_String;
             var keyByteArray = Encoding.ASCII.GetBytes(symmetricKeyAsBase64);
             var signingKey = new SymmetricSecurityKey(keyByteArray);
@@ -109,9 +109,9 @@ namespace Blog.Core
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = signingKey,
                 ValidateIssuer = true,
-                ValidIssuer = audienceConfig["Issuer"],//发行人
+                ValidIssuer = Configuration["Audience:Issuer"],//发行人
                 ValidateAudience = true,
-                ValidAudience = audienceConfig["Audience"],//订阅人
+                ValidAudience = Configuration["Audience:Audience"],//订阅人
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.FromSeconds(30),
                 RequireExpirationTime = true,
@@ -151,12 +151,27 @@ namespace Blog.Core
 
             services.AddMemoryCache();
             services.AddScoped<ICaching, MemoryCaching>();
+            services.AddScoped<IRedisBasketRepository, RedisBasketRepository>();
+            // 配置启动Redis服务，虽然可能影响项目启动速度，但是不能在运行的时候报错，所以是合理的
+            services.AddSingleton<ConnectionMultiplexer>(sp =>
+            {
+                //获取连接字符串
+                string redisConfiguration = Configuration["AppSettings:RedisCaching:ConnectionString"];
+
+                var configuration = ConfigurationOptions.Parse(redisConfiguration, true);
+
+                configuration.ResolveDns = true;
+
+                return ConnectionMultiplexer.Connect(configuration);
+            });
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
             builder.RegisterType<BlogLogAOP>();
             builder.RegisterType<BlogCacheAOP>();
+            builder.RegisterType<BlogRedisAOP>();
+
             var assemblysServices = Assembly.GetAssembly(typeof(BaseServices<object>));
             //指定已扫描程序集中的类型注册为提供所有其实现的接口
 
@@ -166,7 +181,8 @@ namespace Blog.Core
                       .AsImplementedInterfaces()
                       .InstancePerLifetimeScope()
                       .EnableInterfaceInterceptors()
-                      .InterceptedBy(typeof(BlogLogAOP), typeof(BlogCacheAOP));
+                      .InterceptedBy(typeof(BlogLogAOP), typeof(BlogCacheAOP)
+                      , typeof(BlogRedisAOP));
 
 
         }
