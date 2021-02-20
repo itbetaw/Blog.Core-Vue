@@ -15,6 +15,7 @@ using StackExchange.Redis;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Blog.Core
 {
     public class Startup
     {
+        private readonly string DefaultPolicyName = "localhost";
         public IConfigurationRoot Configuration { get; }
         public Startup(IWebHostEnvironment env)
         {
@@ -41,6 +43,8 @@ namespace Blog.Core
 
             // 注入
             services.AddSingleton(Configuration);
+
+            #region SWagger and JWT
 
             services.AddSwaggerGen(c =>
             {
@@ -82,6 +86,8 @@ namespace Blog.Core
 
 
             });
+
+            #endregion
 
             #region 角色认证策略
 
@@ -149,6 +155,8 @@ namespace Blog.Core
 
             #endregion
 
+            #region Redis缓存
+
             services.AddMemoryCache();
             services.AddScoped<ICaching, MemoryCaching>();
             services.AddScoped<IRedisBasketRepository, RedisBasketRepository>();
@@ -164,6 +172,32 @@ namespace Blog.Core
 
                 return ConnectionMultiplexer.Connect(configuration);
             });
+            #endregion
+
+            #region CORS 跨域请求
+
+            var origions = Configuration["App:CorsOrigins"]
+                         .Split(",", StringSplitOptions.RemoveEmptyEntries);
+            origions.ToList().ForEach(x =>
+            {
+                x.TrimEnd('/');
+            });
+            services.AddCors(c =>
+            {
+
+                c.AddPolicy(DefaultPolicyName, policy =>
+                 {
+                     policy.WithOrigins(origions)
+                     .SetIsOriginAllowedToAllowWildcardSubdomains()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials();
+                 });
+            });
+
+            #endregion
+
+            services.AddAutoMapper(typeof(CustomProfile));
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -207,7 +241,17 @@ namespace Blog.Core
 
             app.UseRouting();
 
+            app.UseCors(DefaultPolicyName);
 
+            // 跳转HTTPs
+            app.UseHttpsRedirection();
+            // 静态文件
+            app.UseStaticFiles();
+
+            // 缓存策略 使用Cookies
+            app.UseCookiePolicy();
+            // 返回错误码
+            app.UseStatusCodePages();
             // 先开启认证
             app.UseAuthentication();
 

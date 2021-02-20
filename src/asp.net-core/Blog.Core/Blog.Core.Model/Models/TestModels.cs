@@ -1,4 +1,4 @@
-﻿namespace Blog.Core.Model.Models
+﻿namespace Blog.Core.Model
 {
 
     public class TestMuchTableResult

@@ -1,5 +1,6 @@
 ﻿using Blog.Core.Common;
 using Blog.Core.IRepository;
+using Blog.Core.Model;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -111,11 +112,11 @@ namespace Blog.Core.Repository
             IUpdateable<TEntity> up = await Task.Run(() => db.Updateable(entity));
             if (lstIgnoreColumns != null && lstIgnoreColumns.Count > 0)
             {
-                up = await Task.Run(() => up.IgnoreColumns(it => lstIgnoreColumns.Contains(it.ToString())));
+                up = await Task.Run(() => up.IgnoreColumns(lstIgnoreColumns.ToArray()));
             }
             if (lstColumns != null && lstColumns.Count > 0)
             {
-                up = await Task.Run(() => up.UpdateColumns(it => lstColumns.Contains(it.ToString())));
+                up = await Task.Run(() => up.UpdateColumns(lstColumns.ToArray()));
             }
             if (!string.IsNullOrEmpty(strWhere))
             {
@@ -303,13 +304,17 @@ namespace Blog.Core.Repository
 
 
 
-        public async Task<List<TEntity>> QueryPage(Expression<Func<TEntity, bool>> whereExpression,
+        public async Task<PageModel<TEntity>> QueryPage(Expression<Func<TEntity, bool>> whereExpression,
         int intPageIndex = 0, int intPageSize = 20, string strOrderByFileds = null)
         {
-            return await Task.Run(() => db.Queryable<TEntity>()
-            .OrderByIF(!string.IsNullOrEmpty(strOrderByFileds), strOrderByFileds)
-            .WhereIF(whereExpression != null, whereExpression)
-            .ToPageList(intPageIndex, intPageSize));
+            RefAsync<int> totalCount = 0;
+            var list = await db.Queryable<TEntity>()
+             .OrderByIF(!string.IsNullOrEmpty(strOrderByFileds), strOrderByFileds)
+             .WhereIF(whereExpression != null, whereExpression)
+             .ToPageListAsync(intPageIndex, intPageSize, totalCount);
+
+            int pageCount = (Math.Ceiling(totalCount.ObjToDecimal() / intPageSize.ObjToDecimal())).ObjToInt();
+            return new PageModel<TEntity>() { dataCount = totalCount, pageCount = pageCount, page = intPageIndex, PageSize = intPageSize, data = list };
         }
 
 

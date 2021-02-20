@@ -1,4 +1,4 @@
-﻿namespace Blog.Core.Model.ViewModels
+﻿namespace Blog.Core.Model
 {
     public class PayModel
     {

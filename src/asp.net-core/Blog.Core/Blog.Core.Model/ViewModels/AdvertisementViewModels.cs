@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Blog.Core.Model.ViewModels
+namespace Blog.Core.Model
 {
     /// <summary>
     /// 广告类

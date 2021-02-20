@@ -29,5 +29,20 @@
             博客管理
             </summary>
         </member>
+        <member name="M:Blog.Core.Web.Host.Controllers.BlogController.Get(System.Int32)">
+            <summary>
+            获取博客详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Blog.Core.Web.Host.Controllers.LoginController.GetJWTStr(System.String,System.String)">
+            <summary>
+            获取JWT的方法
+            </summary>
+            <param name="name">id</param>
+            <param name="pass">角色</param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

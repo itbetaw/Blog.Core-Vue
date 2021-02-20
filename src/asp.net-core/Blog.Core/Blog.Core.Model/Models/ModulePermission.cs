@@ -1,7 +1,7 @@
 ﻿using SqlSugar;
 using System;
 
-namespace Blog.Core.Model.Models
+namespace Blog.Core.Model
 {
     /// <summary>
     /// 菜单与按钮关系表

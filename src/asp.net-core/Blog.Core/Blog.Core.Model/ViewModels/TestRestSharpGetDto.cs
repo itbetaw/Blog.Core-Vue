@@ -1,6 +1,6 @@
-﻿using Blog.Core.Model.Models;
+﻿using Blog.Core.Model;
 
-namespace Blog.Core.Model.ViewModels
+namespace Blog.Core.Model
 {
     /// <summary>
     /// 用来测试 RestSharp Get 请求

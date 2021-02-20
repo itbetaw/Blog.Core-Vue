@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Blog.Core.Model.Models
+namespace Blog.Core.Model
 {
     /// <summary>
     /// Tibug 类别

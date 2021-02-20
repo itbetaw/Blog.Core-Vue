@@ -1,4 +1,4 @@
-﻿namespace Blog.Core.Model.ViewModels
+﻿namespace Blog.Core.Model
 {
     /// <summary>
     /// 退款返回结果消息

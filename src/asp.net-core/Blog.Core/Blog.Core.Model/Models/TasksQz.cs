@@ -1,9 +1,9 @@
-﻿using Blog.Core.Model.ViewModels;
+﻿using Blog.Core.Model;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
 
-namespace Blog.Core.Model.Models
+namespace Blog.Core.Model
 {
     /// <summary>
     /// 任务计划表

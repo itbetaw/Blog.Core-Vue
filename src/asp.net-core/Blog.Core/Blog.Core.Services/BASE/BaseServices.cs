@@ -1,5 +1,6 @@
 ﻿using Blog.Core.IRepository;
 using Blog.Core.IServices;
+using Blog.Core.Model;
 using Blog.Core.Repository;
 using System;
 using System.Collections.Generic;
@@ -243,7 +244,7 @@ namespace Blog.Core.Services
             strOrderByFileds);
         }
 
-        public async Task<List<TEntity>> QueryPage(Expression<Func<TEntity, bool>> whereExpression,
+        public async Task<PageModel<TEntity>> QueryPage(Expression<Func<TEntity, bool>> whereExpression,
         int intPageIndex = 0, int intPageSize = 20, string strOrderByFileds = null)
         {
             return await baseDal.QueryPage(whereExpression,

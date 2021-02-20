@@ -1,7 +1,7 @@
 ﻿using System;
-using Blog.Core.Model.Models;
+using Blog.Core.Model;
 
-namespace Blog.Core.Model.ViewModels
+namespace Blog.Core.Model
 {
     /// <summary>
     /// 留言信息展示类

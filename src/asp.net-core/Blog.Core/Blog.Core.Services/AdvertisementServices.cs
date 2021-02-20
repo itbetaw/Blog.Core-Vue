@@ -1,6 +1,6 @@
 ﻿using Blog.Core.IRepository;
 using Blog.Core.IServices;
-using Blog.Core.Model.Models;
+using Blog.Core.Model;
 
 namespace Blog.Core.Services
 {

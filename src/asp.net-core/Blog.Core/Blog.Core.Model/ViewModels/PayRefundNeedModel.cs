@@ -1,4 +1,4 @@
-﻿namespace Blog.Core.Model.ViewModels
+﻿namespace Blog.Core.Model
 {
     /// <summary>
     /// 订单参数

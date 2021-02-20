@@ -1,5 +1,5 @@
 ﻿using Blog.Core.IRepository;
-using Blog.Core.Model.Models;
+using Blog.Core.Model;
 
 namespace Blog.Core.Repository
 {

@@ -1,11 +1,13 @@
 ﻿using Blog.Core.Common;
 using Blog.Core.IServices;
 using Blog.Core.Model;
-using Blog.Core.Model.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Blog.Core.Web.Host.Controllers
@@ -13,7 +15,8 @@ namespace Blog.Core.Web.Host.Controllers
     /// <summary>
     /// 博客管理
     /// </summary>
-    [Route("api/[controller]/[action]")]
+    [Route("api/Blog")]
+    [Authorize(Policy = "Admin")]
     [ApiController]
     public class BlogController : ControllerBase
     {
@@ -27,59 +30,53 @@ namespace Blog.Core.Web.Host.Controllers
             _blogArticleServices = blogArticleServices;
             _configurationRoot = configurationAccessor;
         }
-
-        [HttpGet]
-        [Authorize(Policy = "SystemOrAdmin")]
-        public string GetValue()
+        /// <summary>
+        /// 获取博客详情
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id}")]
+        //[Authorize(Policy = "Scope_BlogModule_Policy")]
+        [Authorize]
+        public async Task<MessageModel<BlogViewModels>> Get(int id)
         {
-            return "V1";
-        }
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<List<BlogArticle>> Get(int id)
-        {
-            return await _blogArticleServices.Query(d => d.bID == id);
-        }
-
-        [HttpGet]
-        public MessageModel<string> GetJWTToken(string name, string pass)
-        {
-            string jwtStr = string.Empty;
-            bool suc = false;
-
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(pass))
+            var response = await _blogArticleServices.GetBlogDetails(id);
+            return new MessageModel<BlogViewModels>()
             {
-                return new MessageModel<string>()
-                {
-                    success = false,
-                    msg = "用户名或密码不能为空"
-                };
-            }
-            TokenModelJwt tokenModel = new TokenModelJwt();
-            tokenModel.Uid = 1;
-            tokenModel.Role = "Admin";
-            jwtStr = JwtHelper.IssueJwt(tokenModel);
-            suc = true;
+                msg = "获取成功",
+                success = true,
+                response = response
 
-            return new MessageModel<string>()
-            {
-                success = suc,
-                msg = suc ? "获取成功" : "获取失败",
-                response = jwtStr
             };
         }
 
+
         [HttpGet]
         [Route("GetBlogs")]
-        public async Task<List<BlogArticle>> GetBlogs()
-
+        public async Task<MessageModel<PageModel<BlogArticle>>> Get(int id, int page = 1, string bcategory = "技术博文",
+            string key = "")
         {
-            var ass = _configurationRoot["AppSettings:SqlServerConnection"];
+            int intPageSize = 6;
+            if (string.IsNullOrEmpty(key) || string.IsNullOrWhiteSpace(key))
+            {
+                key = "";
+            }
 
-            var ss = _configurationRoot["AppSettings:RedisCaching:ConnectionString"];
-            var connect = Appsettings.app(new string[] { "AppSettings", "RedisCaching",
-                "ConnectionString" });
+            Expression<Func<BlogArticle, bool>> whereExpression = a => (a.bcategory == bcategory && a.IsDeleted == false) && ((a.btitle != null && a.btitle.Contains(key)) || (a.bcontent != null && a.bcontent.Contains(key)));
 
-            return await _blogArticleServices.GetBlogs();
+            var pageModelBlog = await _blogArticleServices.QueryPage(whereExpression, page, intPageSize, " bID desc ");
+            return new MessageModel<PageModel<BlogArticle>>()
+            {
+                success = true,
+                msg = "获取成功",
+                response = new PageModel<BlogArticle>()
+                {
+                    page = page,
+                    dataCount = pageModelBlog.dataCount,
+                    data = pageModelBlog.data,
+                    pageCount = pageModelBlog.pageCount,
+                }
+            };
         }
     }
 
